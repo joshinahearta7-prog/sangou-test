@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="삼국지 인물 성향 테스트">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1220"/>
+      <stop offset="50%" stop-color="#111827"/>
+      <stop offset="100%" stop-color="#1f2937"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#fb7185"/>
+    </linearGradient>
+    <linearGradient id="green" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#60a5fa"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="170" cy="110" r="180" fill="#f59e0b" opacity="0.10"/>
+  <circle cx="1030" cy="120" r="180" fill="#22c55e" opacity="0.08"/>
+  <circle cx="1030" cy="520" r="220" fill="#60a5fa" opacity="0.08"/>
+
+  <rect x="70" y="80" width="1060" height="470" rx="34" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.10)"/>
+
+  <text x="120" y="170" fill="#fde68a" font-size="32" font-weight="700" font-family="Pretendard, Apple SD Gothic Neo, Noto Sans KR, sans-serif">20문항 · 18인물 매칭</text>
+  <text x="120" y="255" fill="#ffffff" font-size="72" font-weight="900" font-family="Pretendard, Apple SD Gothic Neo, Noto Sans KR, sans-serif">삼국지 인물 성향 테스트</text>
+  <text x="120" y="325" fill="#cbd5e1" font-size="34" font-weight="500" font-family="Pretendard, Apple SD Gothic Neo, Noto Sans KR, sans-serif">나는 삼국지의 누구와 가장 비슷할까?</text>
+  <text x="120" y="392" fill="#cbd5e1" font-size="28" font-weight="400" font-family="Pretendard, Apple SD Gothic Neo, Noto Sans KR, sans-serif">유비 · 조조 · 제갈량 · 관우 · 사마의 외 18인</text>
+
+  <rect x="120" y="440" width="250" height="58" rx="18" fill="url(#gold)"/>
+  <text x="245" y="478" text-anchor="middle" fill="#ffffff" font-size="28" font-weight="800" font-family="Pretendard, Apple SD Gothic Neo, Noto Sans KR, sans-serif">지금 테스트하기</text>
+
+  <g transform="translate(840,180)">
+    <rect x="0" y="0" width="200" height="200" rx="28" fill="url(#green)"/>
+    <circle cx="100" cy="78" r="40" fill="rgba(255,255,255,0.18)"/>
+    <path d="M48 168c8-28 28-42 52-42s44 14 52 42" fill="rgba(255,255,255,0.18)"/>
+    <circle cx="85" cy="78" r="4" fill="white"/>
+    <circle cx="115" cy="78" r="4" fill="white"/>
+    <path d="M84 96c10 8 22 8 32 0" stroke="white" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <rect x="16" y="16" width="46" height="30" rx="10" fill="rgba(15,23,42,0.48)" stroke="rgba(255,255,255,0.25)"/>
+    <text x="39" y="37" text-anchor="middle" font-size="20" font-weight="900" fill="#fff" font-family="Pretendard, Apple SD Gothic Neo, Noto Sans KR, sans-serif">智</text>
+    <text x="100" y="188" text-anchor="middle" font-size="18" font-weight="800" fill="white" font-family="Pretendard, Apple SD Gothic Neo, Noto Sans KR, sans-serif">제갈량</text>
+  </g>
+  <g transform="translate(980,260)">
+    <rect x="0" y="0" width="120" height="120" rx="24" fill="url(#gold)"/>
+    <circle cx="60" cy="42" r="22" fill="rgba(255,255,255,0.18)"/>
+    <path d="M24 104c5-18 17-28 36-28s31 10 36 28" fill="rgba(255,255,255,0.18)"/>
+    <text x="60" y="112" text-anchor="middle" font-size="14" font-weight="800" fill="white" font-family="Pretendard, Apple SD Gothic Neo, Noto Sans KR, sans-serif">조조</text>
+  </g>
+</svg>
