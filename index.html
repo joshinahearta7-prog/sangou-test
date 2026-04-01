@@ -81,12 +81,10 @@
     <div class="pills">
       <div class="pill">20문항</div>
       <div class="pill">18인물 매칭</div>
-      <div class="pill">장수별 전용 이미지</div>
       <div class="pill">카카오 공유 지원</div>
     </div>
-    <button class="btn btn-primary" onclick="startQuiz()">테스트 시작하기</button>
-    <div class="notice">결과 화면과 하단 미리보기에서 장수별 전용 일러스트형 이미지가 표시됩니다.</div>
-  </section>
+    <button id="heroStartBtn" class="btn btn-primary" onclick="handleHeroButton()">테스트 시작하기</button>
+      </section>
 
   <section id="quizScreen" class="screen">
     <div class="card">
@@ -178,11 +176,29 @@ const portraitStyles = {
   huang_zhong: {bg1:"#57534e", bg2:"#facc15", robe:"#fde68a", hat:"veteran", beard:"white", symbol:"勁"}
 };
 
+
+function updateHeroButton(){
+  const btn = document.getElementById("heroStartBtn");
+  if(!btn) return;
+  if(document.getElementById("quizScreen").classList.contains("active") || document.getElementById("resultScreen").classList.contains("active")){
+    btn.textContent = "처음부터 다시하기";
+  } else {
+    btn.textContent = "테스트 시작하기";
+  }
+}
+function handleHeroButton(){
+  if(document.getElementById("quizScreen").classList.contains("active") || document.getElementById("resultScreen").classList.contains("active")){
+    restartQuiz();
+  } else {
+    startQuiz();
+  }
+}
+
 function resetScores(){ return {L:0,S:0,H:0,P:0,C:0,X:0,A:0,Y:0}; }
 function startQuiz(){
   document.getElementById("quizScreen").classList.add("active");
   document.getElementById("resultScreen").classList.remove("active");
-  current = 0; scores = resetScores(); renderQuestion();
+  current = 0; scores = resetScores(); renderQuestion(); updateHeroButton();
   window.scrollTo({top: document.getElementById("quizScreen").offsetTop - 10, behavior:"smooth"});
 }
 function restartQuiz(){ startQuiz(); }
@@ -387,9 +403,10 @@ function showResult(){
     gallery.appendChild(div);
   });
 
+  updateHeroButton();
   window.scrollTo({top:0,behavior:"smooth"});
 }
-window.addEventListener("load", () => initKakaoSdk());
+window.addEventListener("load", () => { initKakaoSdk(); updateHeroButton(); });
 </script>
 </body>
 </html>
