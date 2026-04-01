@@ -8,13 +8,13 @@
 <meta name="description" content="20문항으로 보는 삼국지 18인물 성향 테스트. 유비, 조조, 제갈량, 관우, 사마의 등과의 유사도를 확인해보세요." />
 <meta property="og:site_name" content="삼국지 인물 성향 테스트" />
 <meta property="og:locale" content="ko_KR" />
-<meta property="og:url" content="https://YOUR-DOMAIN.example/sanguo/" />
-<meta property="og:image" content="https://YOUR-DOMAIN.example/sanguo/og-image.svg" />
+<meta property="og:url" content="https://joshinahearta7-prog.github.io/sangou-test/" />
+<meta property="og:image" content="https://joshinahearta7-prog.github.io/sangou-test/og-image.svg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta name="twitter:title" content="삼국지 인물 성향 테스트" />
 <meta name="twitter:description" content="나는 삼국지의 누구와 가장 비슷할까? 20문항으로 보는 18인물 성향 테스트" />
-<meta name="twitter:image" content="https://YOUR-DOMAIN.example/sanguo/og-image.svg" />
+<meta name="twitter:image" content="https://joshinahearta7-prog.github.io/sangou-test/og-image.svg" />
 
 <meta name="theme-color" content="#111827" />
 <meta property="og:title" content="삼국지 인물 성향 테스트" />
@@ -191,6 +191,20 @@
   .sticky-share .btn { flex: 1 1 calc(50% - 8px); }
 }
 
+
+.kakao-share-btn {
+  background: #FEE500;
+  color: #191919;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+.kakao-share-btn:hover { filter: brightness(1.02); }
+.small-help {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
 </style>
 </head>
 <body>
@@ -280,11 +294,12 @@
             이 파일만으로는 카카오톡 대화창에 텍스트를 바로 복사하거나, 지원되는 기기에서는 시스템 공유로 보낼 수 있어요.
             카카오톡 링크 미리보기 카드까지 완전히 예쁘게 뜨게 하려면 이 페이지를 웹에 올린 뒤 카카오 공유 API를 연결해야 합니다.
           </p>
+        <div class="small-help">카카오톡 앱 또는 웹 환경에서 공유 창이 열립니다. 공유 내용은 현재 결과에 맞춰 자동으로 바뀝니다.</div>
         </div>
 
         <div class="sticky-share">
           <div class="inner">
-            <button class="btn kakao-btn" onclick="copyKakaoShareText()">카톡용 문구 복사</button>
+            <button id="kakaoShareBtn" class="btn kakao-share-btn" onclick="shareResultToKakao()">카카오톡으로 공유</button>
             <button class="btn btn-secondary" onclick="shareResultNative()">공유하기</button>
             <button class="btn btn-secondary" onclick="copyLinkHint()">링크 안내 복사</button>
           </div>
@@ -304,7 +319,15 @@
     </section>
   </div>
 
+
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
+  integrity="sha384-PiLJyJ1Q0IOYJbWv6f9Ge7P2N3A5W5VqC5EONosFVJeFt3PcTJS3BM4tiTqcKoy0"
+  crossorigin="anonymous"></script>
+
 <script>
+const KAKAO_JS_KEY = '83696cf0aea5fddb891b08a54d102ca1';
+const SHARE_PAGE_URL = 'https://joshinahearta7-prog.github.io/sangou-test/';
+const SHARE_IMAGE_URL = 'https://joshinahearta7-prog.github.io/sangou-test/og-image.svg';
 const characters = [{"id": "liu_bei", "name": "유비", "hanja": "劉備", "title": "인의와 포용의 리더", "desc": "사람을 모으고 관계를 지키는 데 강합니다. 명분과 신뢰를 중시하며, 느리더라도 함께 가는 길을 택하는 편입니다.", "dims": {"L": 8, "S": 6, "H": 9, "P": 4, "C": 8, "X": 5, "A": 5, "Y": 9}, "symbol": "仁"}, {"id": "cao_cao", "name": "조조", "hanja": "曹操", "title": "냉철한 현실주의 전략가", "desc": "상황판단이 빠르고 결과 중심적입니다. 유능한 사람을 기용하며, 필요하다면 과감한 결단도 내립니다.", "dims": {"L": 9, "S": 9, "H": 4, "P": 10, "C": 8, "X": 6, "A": 10, "Y": 5}, "symbol": "霸"}, {"id": "sun_quan", "name": "손권", "hanja": "孫權", "title": "균형 감각의 안정형 군주", "desc": "강한 개성보다 조직 운영과 균형에 강합니다. 적절한 인재 배치와 지속 가능한 통치를 선호합니다.", "dims": {"L": 8, "S": 7, "H": 6, "P": 7, "C": 7, "X": 7, "A": 6, "Y": 7}, "symbol": "衡"}, {"id": "zhuge_liang", "name": "제갈량", "hanja": "諸葛亮", "title": "치밀한 설계형 브레인", "desc": "큰 그림, 계획, 디테일에 강합니다. 준비와 계산을 중시하고 책임감이 매우 높은 타입입니다.", "dims": {"L": 6, "S": 10, "H": 8, "P": 6, "C": 5, "X": 9, "A": 6, "Y": 10}, "symbol": "智"}, {"id": "guan_yu", "name": "관우", "hanja": "關羽", "title": "의리와 자존의 무장", "desc": "신념과 약속을 매우 중요하게 생각합니다. 스스로 세운 기준이 높고, 쉽게 타협하지 않습니다.", "dims": {"L": 6, "S": 5, "H": 10, "P": 3, "C": 7, "X": 6, "A": 5, "Y": 10}, "symbol": "義"}, {"id": "zhang_fei", "name": "장비", "hanja": "張飛", "title": "직진형 열혈 행동파", "desc": "감정과 추진력이 강합니다. 답답한 상황을 깨부수는 힘이 있고, 팀에 에너지를 불어넣는 편입니다.", "dims": {"L": 5, "S": 3, "H": 7, "P": 3, "C": 8, "X": 2, "A": 6, "Y": 8}, "symbol": "烈"}, {"id": "zhao_yun", "name": "조운", "hanja": "趙雲", "title": "침착한 정예 실전가", "desc": "과시보다 실력을 택하고, 위기에서 차분하게 움직입니다. 믿고 맡길 수 있는 안정감이 강점입니다.", "dims": {"L": 6, "S": 7, "H": 8, "P": 6, "C": 5, "X": 8, "A": 5, "Y": 9}, "symbol": "勇"}, {"id": "sima_yi", "name": "사마의", "hanja": "司馬懿", "title": "인내형 장기전 설계자", "desc": "즉흥보다 타이밍을 봅니다. 필요할 때까지 힘을 감추고, 장기적으로 승리하는 방식을 선호합니다.", "dims": {"L": 8, "S": 10, "H": 4, "P": 9, "C": 4, "X": 10, "A": 9, "Y": 6}, "symbol": "忍"}, {"id": "xiahou_dun", "name": "하후돈", "hanja": "夏侯惇", "title": "강직한 충성형 실무 리더", "desc": "관계와 의리를 지키며 일선에서 버텨내는 타입입니다. 화려하진 않아도 믿음직합니다.", "dims": {"L": 7, "S": 5, "H": 7, "P": 6, "C": 5, "X": 6, "A": 5, "Y": 9}, "symbol": "忠"}, {"id": "zhou_yu", "name": "주유", "hanja": "周瑜", "title": "세련된 천재 지휘관", "desc": "감각과 전략을 함께 쓰는 스타일입니다. 분위기를 장악하는 힘이 있고 완성도에 민감합니다.", "dims": {"L": 8, "S": 9, "H": 7, "P": 7, "C": 9, "X": 7, "A": 8, "Y": 6}, "symbol": "雅"}, {"id": "lu_su", "name": "노숙", "hanja": "魯肅", "title": "조율과 협상의 실무가", "desc": "극단보다 협력과 구조를 봅니다. 갈등을 중재하고 장기적으로 이익이 되는 합의를 이끌어냅니다.", "dims": {"L": 6, "S": 8, "H": 7, "P": 8, "C": 6, "X": 8, "A": 4, "Y": 7}, "symbol": "和"}, {"id": "lv_meng", "name": "여몽", "hanja": "呂蒙", "title": "성장형 역전 실무자", "desc": "처음보다 나중이 더 무서운 타입입니다. 학습력이 좋고, 꾸준히 실력을 키워 판을 바꿉니다.", "dims": {"L": 6, "S": 8, "H": 6, "P": 7, "C": 5, "X": 8, "A": 7, "Y": 7}, "symbol": "學"}, {"id": "pang_tong", "name": "방통", "hanja": "龐統", "title": "기발한 비정형 천재", "desc": "정석보다 변칙과 통찰을 즐깁니다. 남들이 못 보는 해법을 찾는 데 강하지만 호불호가 갈릴 수 있습니다.", "dims": {"L": 4, "S": 9, "H": 6, "P": 7, "C": 3, "X": 7, "A": 7, "Y": 6}, "symbol": "奇"}, {"id": "guo_jia", "name": "곽가", "hanja": "郭嘉", "title": "예리한 판단의 책사", "desc": "핵심을 빠르게 파악하고, 복잡한 국면에서도 본질을 짚습니다. 직관과 전략이 같이 강합니다.", "dims": {"L": 4, "S": 9, "H": 5, "P": 8, "C": 5, "X": 7, "A": 7, "Y": 5}, "symbol": "策"}, {"id": "dong_zhuo", "name": "동탁", "hanja": "董卓", "title": "권력 직행형 지배자", "desc": "권한과 통제력을 직접 쥐고 싶어합니다. 강압적이지만 추진력은 강한 타입입니다.", "dims": {"L": 7, "S": 3, "H": 1, "P": 8, "C": 6, "X": 2, "A": 10, "Y": 2}, "symbol": "權"}, {"id": "yuan_shao", "name": "원소", "hanja": "袁紹", "title": "체면과 명가형 리더", "desc": "격식과 외형, 명분을 중시합니다. 기반은 좋지만 결단이 늦어질 때가 있습니다.", "dims": {"L": 7, "S": 4, "H": 7, "P": 4, "C": 8, "X": 5, "A": 7, "Y": 5}, "symbol": "名"}, {"id": "ma_chao", "name": "마초", "hanja": "馬超", "title": "자존심 강한 돌파형", "desc": "강한 존재감과 기세로 밀어붙입니다. 모욕과 배신에 민감하며, 정면 승부 성향이 강합니다.", "dims": {"L": 5, "S": 4, "H": 6, "P": 4, "C": 8, "X": 3, "A": 8, "Y": 6}, "symbol": "鋒"}, {"id": "huang_zhong", "name": "황충", "hanja": "黃忠", "title": "노련한 베테랑 무장", "desc": "묵직하고 꾸준한 실력을 지닌 타입입니다. 말보다 결과로 증명하며, 늦게도 크게 빛날 수 있습니다.", "dims": {"L": 5, "S": 6, "H": 8, "P": 6, "C": 4, "X": 8, "A": 4, "Y": 8}, "symbol": "勁"}];
 const questions = [{"q": "중요한 프로젝트에서 당신이 가장 먼저 보는 것은?", "options": [["명분과 팀 분위기", {"H": 2, "Y": 2, "L": 1}], ["성공 확률과 자원 배치", {"S": 2, "P": 2}], ["내가 주도권을 쥘 수 있는지", {"A": 2, "L": 1}], ["리스크와 변수의 크기", {"X": 2, "S": 1}]]}, {"q": "갈등이 생겼을 때 당신의 기본 반응은?", "options": [["일단 대화를 통해 풀어본다", {"H": 2, "C": 1}], ["누가 더 유리한 위치인지 본다", {"P": 2, "S": 1}], ["원칙을 어긴 쪽을 바로 지적한다", {"H": 2, "A": 1}], ["상황을 더 지켜보며 증거를 모은다", {"X": 2, "S": 1}]]}, {"q": "당신이 리더라면 가장 중요하게 여길 인재는?", "options": [["끝까지 의리를 지키는 사람", {"Y": 2, "H": 1}], ["능력만 확실하면 되는 사람", {"P": 2, "S": 1}], ["분위기를 끌어올리는 사람", {"C": 2, "L": 1}], ["말없이 결과를 내는 사람", {"X": 1, "S": 2}]]}, {"q": "승부를 앞두고 당신의 스타일은?", "options": [["철저히 준비하고 계산한다", {"S": 2, "X": 1}], ["기세로 몰아붙인다", {"A": 2, "C": 1}], ["상대가 먼저 움직이게 둔다", {"X": 2, "P": 1}], ["내 편의 사기를 먼저 다진다", {"L": 2, "Y": 1}]]}, {"q": "친구가 규칙을 어기고 당신에게 부탁한다면?", "options": [["친구라도 선은 지켜야 한다", {"H": 2}], ["도와주되 들키지 않게 처리한다", {"P": 2}], ["왜 그랬는지 듣고 판단한다", {"C": 1, "H": 1}], ["일단 거리를 두고 상황을 본다", {"X": 2}]]}, {"q": "당신이 더 싫어하는 평가는?", "options": [["의리 없다", {"Y": 3}], ["무능하다", {"S": 1, "A": 2}], ["우유부단하다", {"A": 2, "L": 1}], ["융통성 없다", {"P": 2}]]}, {"q": "회의에서 당신은 보통 어떤 역할인가?", "options": [["전체 방향을 잡는다", {"L": 2}], ["핵심 논리를 정리한다", {"S": 2}], ["분위기와 사람을 조율한다", {"C": 2, "H": 1}], ["말은 적지만 허점을 찾는다", {"X": 2, "P": 1}]]}, {"q": "당신이 가장 끌리는 성공 방식은?", "options": [["사람들이 인정하는 정당한 승리", {"H": 2, "L": 1}], ["적은 희생으로 얻는 효율적 승리", {"P": 2, "S": 1}], ["내 능력으로 판을 뒤집는 승리", {"A": 2, "C": 1}], ["끝까지 버텨 결국 이기는 승리", {"X": 2, "Y": 1}]]}, {"q": "팀원이 실수했을 때 당신은?", "options": [["감싸주고 다시 세운다", {"Y": 2, "C": 1}], ["원인과 재발 방지부터 정리한다", {"S": 2}], ["실수의 대가를 분명히 한다", {"A": 2, "H": 1}], ["다음엔 같은 상황이 안 오게 구조를 바꾼다", {"P": 1, "X": 2}]]}, {"q": "당신에게 더 중요한 것은?", "options": [["명예", {"H": 3}], ["실리", {"P": 3}], ["영향력", {"A": 3}], ["안정성", {"X": 3}]]}, {"q": "새로운 환경에 들어갔을 때 당신은?", "options": [["먼저 사람들과 친해진다", {"C": 2, "L": 1}], ["구조와 룰을 빠르게 파악한다", {"S": 2}], ["누가 실권자인지 본다", {"P": 2, "A": 1}], ["내가 드러나지 않게 관찰한다", {"X": 2}]]}, {"q": "약속이 손해가 되어도 지키는 편인가?", "options": [["웬만하면 끝까지 지킨다", {"Y": 2, "H": 1}], ["전체 이익을 위해 조정 가능하다", {"P": 2}], ["상대가 먼저 어기지 않는 한 지킨다", {"H": 1, "X": 1}], ["그때그때 조건에 따라 다르다", {"P": 1, "S": 1}]]}, {"q": "당신의 약점으로 가장 자주 나오는 것은?", "options": [["정에 약함", {"Y": 2, "C": 1}], ["너무 계산적임", {"S": 1, "P": 2}], ["고집이 셈", {"H": 2, "A": 1}], ["속내를 잘 안 드러냄", {"X": 2}]]}, {"q": "위기가 왔을 때 더 믿는 것은?", "options": [["내 사람들", {"Y": 2, "L": 1}], ["내 계획", {"S": 2, "X": 1}], ["내 결단력", {"A": 2, "L": 1}], ["상대의 실수", {"P": 2, "X": 1}]]}, {"q": "당신이 듣고 싶은 말은?", "options": [["믿을 만하다", {"Y": 2}], ["머리가 좋다", {"S": 2}], ["카리스마 있다", {"C": 2, "A": 1}], ["빈틈이 없다", {"X": 2, "P": 1}]]}, {"q": "좋은 리더란?", "options": [["사람을 지키는 사람", {"H": 2, "Y": 1, "L": 1}], ["성과를 만드는 사람", {"P": 2, "A": 1}], ["판을 읽는 사람", {"S": 2}], ["쉽게 흔들리지 않는 사람", {"X": 2}]]}, {"q": "당신이 더 견디기 힘든 상황은?", "options": [["배신당하는 것", {"Y": 3}], ["무시당하는 것", {"A": 3}], ["비효율이 반복되는 것", {"S": 1, "P": 2}], ["예측 불가능한 혼란", {"X": 3}]]}, {"q": "인생에서 당신이 자주 택하는 길은?", "options": [["느려도 떳떳한 길", {"H": 2}], ["빠르고 현실적인 길", {"P": 2}], ["어렵더라도 크게 이기는 길", {"A": 2}], ["오래 버티며 기회를 기다리는 길", {"X": 2}]]}, {"q": "누군가 당신을 따르는 이유는 무엇이라고 생각하나?", "options": [["내 진심과 책임감", {"L": 2, "Y": 1}], ["내 실력과 판단력", {"S": 2}], ["내 존재감과 추진력", {"C": 2, "A": 1}], ["내 침착함과 안정감", {"X": 2}]]}, {"q": "마지막으로, 당신이 가장 중요하게 여기는 한 단어는?", "options": [["의리", {"Y": 2, "H": 1}], ["지략", {"S": 2}], ["패권", {"A": 2, "P": 1}], ["인내", {"X": 2}]]}];
 
@@ -321,6 +344,7 @@ const DIM_LABELS = {
 
 let current = 0;
 let scores = resetScores();
+window.addEventListener('load', () => { initKakaoSdk(); });
 
 function resetScores() {
   return {L:0,S:0,H:0,P:0,C:0,X:0,A:0,Y:0};
@@ -515,11 +539,72 @@ function copyResult() {
   });
 }
 
+
+function initKakaoSdk() {
+  if (!window.Kakao) return false;
+  try {
+    if (!window.Kakao.isInitialized()) {
+      window.Kakao.init(KAKAO_JS_KEY);
+    }
+    return true;
+  } catch (e) {
+    console.error('Kakao init failed', e);
+    return false;
+  }
+}
+
+function getCurrentResultPayload() {
+  const name = document.getElementById('resultName').textContent || '삼국지 인물';
+  const title = document.getElementById('resultTitle').textContent || '삼국지 인물 성향 테스트';
+  const desc = document.getElementById('resultDesc').textContent || '과연 내가 삼국지 시대에 떨어진다면 어떤 영웅이 될까?';
+  const shortDesc = `과연 내가 삼국지 시대에 떨어진다면 어떤 영웅이 될까?\n내 결과: ${name} / ${title}`;
+  return { name, title, desc, shortDesc };
+}
+
+function shareResultToKakao() {
+  const ok = initKakaoSdk();
+  if (!ok) {
+    copyKakaoShareText();
+    alert('카카오 SDK를 불러오지 못해서 공유 문구를 대신 복사했어요.');
+    return;
+  }
+
+  const payload = getCurrentResultPayload();
+
+  try {
+    window.Kakao.Share.sendDefault({
+      objectType: 'feed',
+      content: {
+        title: `내 삼국지 결과는 ${payload.name}!`,
+        description: `과연 내가 삼국지 시대에 떨어진다면 어떤 영웅이 될까? ${payload.title}`,
+        imageUrl: SHARE_IMAGE_URL,
+        link: {
+          mobileWebUrl: SHARE_PAGE_URL,
+          webUrl: SHARE_PAGE_URL
+        }
+      },
+      buttons: [
+        {
+          title: '나도 테스트하기',
+          link: {
+            mobileWebUrl: SHARE_PAGE_URL,
+            webUrl: SHARE_PAGE_URL
+          }
+        }
+      ]
+    });
+  } catch (e) {
+    console.error('Kakao share failed', e);
+    copyKakaoShareText();
+    alert('카카오 공유 호출에 실패해서 공유 문구를 대신 복사했어요.');
+  }
+}
+
 function makeShareText() {
   const name = document.getElementById('resultName').textContent;
   const title = document.getElementById('resultTitle').textContent;
   const desc = document.getElementById('resultDesc').textContent;
-  return `내 삼국지 성향 테스트 결과는 ${name}!\n${title}\n${desc}\n\n나도 해보기: 이 HTML 파일을 열어 테스트 진행`;
+  return `과연 내가 삼국지 시대에 떨어진다면 어떤 영웅이 될까?\n내 결과는 ${name}!\n${title}\n${desc}\n\n테스트 링크: ${SHARE_PAGE_URL}`;
 }
 
 function updateSharePreview(best) {
