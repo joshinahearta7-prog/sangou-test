@@ -1,12 +1,78 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>복구 테스트</title>
-</head>
-<body style="font-family:sans-serif;padding:40px;">
-  <h1>복구 성공</h1>
-  <p>이 문장이 보이면 index.html 편집은 정상입니다.</p>
+  });
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+function initKakaoSdk() {
+  if (!window.Kakao) {
+    window.__kakaoLastError = 'window.Kakao가 로드되지 않았습니다.';
+    return false;
+  }
+  try {
+    if (!window.Kakao.isInitialized()) {
+      window.Kakao.init(KAKAO_JS_KEY);
+    }
+    return true;
+  } catch (e) {
+    console.error('Kakao init failed', e);
+    window.__kakaoLastError = 'Kakao.init 실패: ' + (e && e.message ? e.message : String(e));
+    return false;
+  }
+}
+function getCurrentResultPayload() {
+  const name = document.getElementById('resultName').textContent || '삼국지 인물';
+  const title = document.getElementById('resultTitle').textContent || '삼국지 인물 성향 테스트';
+  const desc = document.getElementById('resultDesc').textContent || '과연 내가 삼국지 시대에 떨어진다면 어떤 영웅이 될까?';
+  const shortDesc = `과연 내가 삼국지 시대에 떨어진다면 어떤 영웅이 될까?\n내 결과: ${name} / ${title}`;
+  return { name, title, desc, shortDesc };
+}
+function shareResultToKakao() {
+  const ok = initKakaoSdk();
+  if (!ok) {
+    copyResult();
+    alert('카카오 SDK를 불러오지 못했어요.\n' + (window.__kakaoLastError || '원인 미상') + '\n\n공유 문구를 대신 복사했어요.');
+    return;
+  }
+  const payload = getCurrentResultPayload();
+  try {
+    window.Kakao.Share.sendDefault({
+      objectType: 'feed',
+      content: {
+        title: `내 삼국지 결과는 ${payload.name}!`,
+        description: `과연 내가 삼국지 시대에 떨어진다면 어떤 영웅이 될까? ${payload.title}`,
+        imageUrl: SHARE_IMAGE_URL,
+        link: { mobileWebUrl: SHARE_PAGE_URL, webUrl: SHARE_PAGE_URL }
+      },
+      buttons: [{ title: '나도 테스트하기', link: { mobileWebUrl: SHARE_PAGE_URL, webUrl: SHARE_PAGE_URL } }]
+    });
+  } catch (e) {
+    console.error('Kakao share failed', e);
+    copyResult();
+    alert('카카오 공유 호출에 실패했어요.\n' + (e && e.message ? e.message : String(e)) + '\n\n공유 문구를 대신 복사했어요.');
+  }
+}
+function makeShareText() {
+  const name = document.getElementById('resultName').textContent;
+  const title = document.getElementById('resultTitle').textContent;
+  const desc = document.getElementById('resultDesc').textContent;
+  return `과연 내가 삼국지 시대에 떨어진다면 어떤 영웅이 될까?\n내 결과는 ${name}!\n${title}\n${desc}\n\n테스트 링크: ${SHARE_PAGE_URL}`;
+}
+function updateSharePreview(best) {
+  const shareTitle = document.getElementById('shareTitle');
+  const shareBadge = document.getElementById('shareBadge');
+  const shareCopyPreview = document.getElementById('shareCopyPreview');
+  const sharePortrait = document.getElementById('sharePortrait');
+  sharePortrait.innerHTML = getPortraitSVG(best);
+  shareTitle.textContent = `${best.name} 타입`;
+  shareBadge.textContent = `${best.title}`;
+  shareCopyPreview.textContent = makeShareText();
+}
+function copyResult() {
+  navigator.clipboard.writeText(makeShareText()).then(() => {
+    alert('카카오톡에 붙여넣기 좋은 문구를 복사했어요.');
+  }).catch(() => {
+    alert('복사에 실패했어요. 직접 드래그해서 복사해주세요.');
+  });
+}
+</script>
 </body>
 </html>
