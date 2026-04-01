@@ -18,17 +18,13 @@
   <circle cx="170" cy="110" r="180" fill="#f59e0b" opacity="0.10"/>
   <circle cx="1030" cy="120" r="180" fill="#22c55e" opacity="0.08"/>
   <circle cx="1030" cy="520" r="220" fill="#60a5fa" opacity="0.08"/>
-
   <rect x="70" y="80" width="1060" height="470" rx="34" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.10)"/>
-
   <text x="120" y="170" fill="#fde68a" font-size="32" font-weight="700" font-family="Pretendard, Apple SD Gothic Neo, Noto Sans KR, sans-serif">20문항 · 18인물 매칭</text>
   <text x="120" y="255" fill="#ffffff" font-size="72" font-weight="900" font-family="Pretendard, Apple SD Gothic Neo, Noto Sans KR, sans-serif">삼국지 인물 성향 테스트</text>
   <text x="120" y="325" fill="#cbd5e1" font-size="34" font-weight="500" font-family="Pretendard, Apple SD Gothic Neo, Noto Sans KR, sans-serif">나는 삼국지의 누구와 가장 비슷할까?</text>
   <text x="120" y="392" fill="#cbd5e1" font-size="28" font-weight="400" font-family="Pretendard, Apple SD Gothic Neo, Noto Sans KR, sans-serif">유비 · 조조 · 제갈량 · 관우 · 사마의 외 18인</text>
-
   <rect x="120" y="440" width="250" height="58" rx="18" fill="url(#gold)"/>
   <text x="245" y="478" text-anchor="middle" fill="#ffffff" font-size="28" font-weight="800" font-family="Pretendard, Apple SD Gothic Neo, Noto Sans KR, sans-serif">지금 테스트하기</text>
-
   <g transform="translate(840,180)">
     <rect x="0" y="0" width="200" height="200" rx="28" fill="url(#green)"/>
     <circle cx="100" cy="78" r="40" fill="rgba(255,255,255,0.18)"/>
